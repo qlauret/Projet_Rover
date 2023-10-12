@@ -1,6 +1,4 @@
 import Foundation
-import XCTest
-
 
 public enum cardinalPoints: String {
     case North = "Nord"
@@ -101,7 +99,6 @@ public class Rover {
 let robot = Rover(x: 0, y: 0, orientation: .North)
 robot.goBackward()
 robot.goBackward()
-
 robot.goBackward()
 
 
