@@ -1,23 +1,33 @@
 import Foundation
 
-public enum cardinalPoints: String {
+private enum cardinalPoints: String {
     case North = "Nord"
     case East = "Est"
     case South = "South"
     case West = "Ouest"
 }
 
-let map = [10, 10]
-
-public class Rover {
-    var x: Int
-    var y: Int
-    var orientation: cardinalPoints
+private struct Map {
+    let x: Int
+    let y: Int
     
-    public init(x: Int, y: Int, orientation: cardinalPoints) {
+    init(x: Int, y: Int) {
+        self.x = x
+        self.y = y
+    }
+}
+
+private class Rover {
+    private var x: Int
+    private var y: Int
+    private var orientation: cardinalPoints
+    private var map: Map
+    
+    public init(x: Int, y: Int, orientation: cardinalPoints, map: Map) {
         self.x = x
         self.y = y
         self.orientation = orientation
+        self.map = map
     }
     
     func goForward() {
@@ -50,45 +60,45 @@ public class Rover {
         self.returnPos()
     }
     
-    func rotate(isPositive: Bool) {
-        if isPositive {
-            switch orientation {
-            case .North:
-                self.orientation = .East
-            case .East:
-                self.orientation = .South
-            case .South:
-                self.orientation = .West
-            case .West:
-                self.orientation = .North
-            }
-        } else {
-            switch orientation {
-            case .North:
-                self.orientation = .West
-            case .East:
-                self.orientation = .North
-            case .South:
-                self.orientation = .East
-            case .West:
-                self.orientation = .South
-            }
+    func rotateClockwise() {
+        switch orientation {
+        case .North:
+            orientation = .East
+        case .East:
+            orientation = .South
+        case .South:
+            orientation = .West
+        case .West:
+            orientation = .North
         }
-        self.checkMapBounds(map: map)
         self.returnPos()
     }
     
-    func returnPos() {
-        print("\(self.x), \(self.y), facing \(self.orientation.rawValue)")
+    func rotateCounterclockwise() {
+        switch orientation {
+        case .North:
+            orientation = .West
+        case .East:
+            orientation = .North
+        case .South:
+            orientation = .East
+        case .West:
+            orientation = .South
+        }
+        self.returnPos()
     }
     
-    func checkMapBounds(map: [Int]) {
-        if map.first! < self.x {
+    private func returnPos() {
+        print("X : \(self.x), Y : \(self.y), facing \(self.orientation.rawValue)")
+    }
+    
+    private func checkMapBounds(map: Map) {
+        if map.x < self.x {
             self.x = 0
         } else if self.x < 0 {
             self.x = 10
         }
-        if map.last! < self.y {
+        if map.y < self.y {
             self.y = 0
         } else if self.y < 0 {
             self.y = 10
@@ -96,10 +106,16 @@ public class Rover {
     }
 }
 
-let robot = Rover(x: 0, y: 0, orientation: .North)
+private let robot = Rover(x: 10, y: 10, orientation: .North,map: Map(x: 10, y: 10))
 robot.goBackward()
 robot.goBackward()
-robot.goBackward()
+robot.rotateClockwise()
+robot.goForward()
+robot.goForward()
+robot.rotateCounterclockwise()
+robot.goForward()
+robot.goForward()
+robot.goForward()
 
 
 
