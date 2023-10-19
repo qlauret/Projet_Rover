@@ -29,6 +29,15 @@ private struct Obstacle {
     }
 }
 
+extension String {
+    func isZQSD() -> [String] {
+        let allowedCharacters = Set("ZQSD")
+        let filteredChars = self.uppercased().filter { allowedCharacters.contains($0) }
+        return filteredChars.map { String($0) }
+
+    }
+}
+
 private class Rover {
     private var x: Int
     private var y: Int
@@ -131,10 +140,29 @@ private class Rover {
             }
         }
     }
+    
+    func sendMultipleCommands(commands: String) {
+        print(commands.isZQSD())
+        for command in commands.isZQSD() {
+            switch command {
+            case "Z":
+                self.goForward()
+            case "Q":
+                self.rotateCounterclockwise()
+            case "S":
+                self.goBackward()
+            case "D":
+                self.rotateClockwise()
+            default:
+                break
+            }
+        }
+    }
 }
 
 private let robot = Rover(x: 5, y: 4, orientation: .North,map: Map(x: 10, y: 10, obstacles: [Obstacle(x: 5, y: 5), Obstacle(x: 2, y: 8)]))
 robot.goForward()
+robot.sendMultipleCommands(commands: "ZQSSSFFFFD")
 
 
 
