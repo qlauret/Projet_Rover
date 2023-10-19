@@ -9,8 +9,7 @@ import Foundation
 
 class Rover {
     var name : String
-    var x : Int = 0
-    var y : Int = 0
+    var point = Point(x: 0, y: 0)
     var orientation : cardinalPoints = .North
     var planet = Planet(name:"",width: 0, height: 0)
     var isDeployed = false
@@ -27,15 +26,15 @@ class Rover {
             self.orientation = facing
             // X POSITION
             if (1...planet.width).contains(posX){
-                self.x = posX
+                self.point.x = posX
             }else{
-                self.x = (self.planet.width / 2)
+                self.point.x = (self.planet.width / 2)
             }
             // Y POSITION
             if (1...planet.height).contains(posY){
-                self.y = posY
+                self.point.y = posY
             }else{
-                self.y = (self.planet.height / 2)
+                self.point.y = (self.planet.height / 2)
             }
             // PLANET
             self.planet = planet
@@ -50,20 +49,23 @@ class Rover {
     
     func goForward() {
         if isDeployed{
+            
+            let previousPoint = Point(x: self.point.x, y: self.point.y)
             switch orientation {
                 case .South:
-                    self.y -= 1
+                    self.point.y -= 1
                     self.checkPositioning(onX: false, isPositive: false)
                 case .North:
-                    self.y += 1
+                    self.point.y += 1
                     self.checkPositioning(onX: false, isPositive: true)
                 case .East:
-                    self.x += 1
+                    self.point.x += 1
                     self.checkPositioning(onX: true, isPositive: true)
                 case .West:
-                    self.x -= 1
+                    self.point.x -= 1
                     self.checkPositioning(onX: true, isPositive: false)
             }
+            self.checkObstacle(previousPoint: previousPoint) //vérifie si y il a un obstacle
             self.showMessage(option: "get_positioning") //affiche ses infos
         }else{
             self.showMessage(option: "not_deployed")
@@ -73,20 +75,22 @@ class Rover {
     
     func goBackward() {
         if isDeployed{
+            let previousPoint = Point(x: self.point.x, y: self.point.y)
             switch orientation {
                 case .South:
-                    self.y += 1
+                    self.point.y += 1
                     self.checkPositioning(onX: false, isPositive: true)
                 case .North:
-                    self.y -= 1
+                    self.point.y -= 1
                     self.checkPositioning(onX: false, isPositive: false)
                 case .East:
-                    self.x -= 1
+                    self.point.x -= 1
                     self.checkPositioning(onX: true, isPositive: false)
                 case .West:
-                    self.x += 1
+                    self.point.x += 1
                     self.checkPositioning(onX: true, isPositive: true)
             }
+            self.checkObstacle(previousPoint: previousPoint) //vérifie si y il a un obstacle
             self.showMessage(option: "get_positioning") //affiche ses infos
         }else{
             self.showMessage(option: "not_deployed")
@@ -126,22 +130,33 @@ class Rover {
         
     }
     
+    private func checkObstacle(previousPoint: Point){
+        for obstacle in self.planet.obstacleOnPlanet{
+            if (obstacle.point.x == self.point.x) && (obstacle.point.y == self.point.y){
+                //même position, donc on garde la précédente position
+                self.point = previousPoint
+                print("\n ** IL y a \(obstacle.name) sur votre chemin ! **")
+            }
+        }
+        
+    }
+    
     private func checkPositioning(onX : Bool, isPositive: Bool){
         // X AXE
         if onX{
-            if !(1...self.planet.width).contains(self.x){
+            if !(1...self.planet.width).contains(self.point.x){
                 if isPositive{
-                    self.x = 1
+                    self.point.x = 1
                 }else{
-                    self.x = self.planet.width
+                    self.point.x = self.planet.width
                 }
             }
         }else{
-            if !(1...self.planet.height).contains(self.y){
+            if !(1...self.planet.height).contains(self.point.y){
                 if isPositive{
-                    self.y = 1
+                    self.point.y = 1
                 }else{
-                    self.y = self.planet.height
+                    self.point.y = self.planet.height
                 }
             }
         }
@@ -153,9 +168,9 @@ class Rover {
         case "not_deployed":
             print("\(self.name) n'a pas encore été déployer !")
         case "deploying":
-            print("\(self.name) est en cours de déploiement en X:\(self.x), Y:\(self.y), sur la face \(self.orientation.rawValue) de \(self.planet.name) !")
+            print("\(self.name) est en cours de déploiement en X:\(self.point.x), Y:\(self.point.y), sur la face \(self.orientation.rawValue) de \(self.planet.name) !")
         case "get_positioning":
-            print("\n-- X:\(self.x), Y:\(self.y), facing \(self.orientation.rawValue)--")
+            print("\n-- X:\(self.point.x), Y:\(self.point.y), facing \(self.orientation.rawValue)--")
         case "1Rover_1Planet":
             print("\(self.name) a déjà été deployer sur la planète \(self.planet.name)")
         default:
