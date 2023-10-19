@@ -8,6 +8,18 @@ private enum cardinalPoints: String {
 }
 
 private struct Map {
+    let obstacles: [Obstacle]
+    let x: Int
+    let y: Int
+    
+    init(x: Int, y: Int, obstacles: [Obstacle]) {
+        self.x = x
+        self.y = y
+        self.obstacles = obstacles
+    }
+}
+
+private struct Obstacle {
     let x: Int
     let y: Int
     
@@ -31,6 +43,8 @@ private class Rover {
     }
     
     func goForward() {
+        let x = self.x
+        let y = self.y
         switch orientation {
         case .South:
             self.y -= 1
@@ -42,10 +56,13 @@ private class Rover {
             self.x -= 1
         }
         self.checkMapBounds(map: map)
+        self.checkObstacles(map: map, roverX: x, roverY: y)
         self.returnPos()
     }
     
     func goBackward() {
+        let x = self.x
+        let y = self.y
         switch orientation {
         case .South:
             self.y += 1
@@ -57,6 +74,7 @@ private class Rover {
             self.x += 1
         }
         self.checkMapBounds(map: map)
+        self.checkObstacles(map: map, roverX: x, roverY: y)
         self.returnPos()
     }
     
@@ -104,17 +122,18 @@ private class Rover {
             self.y = 10
         }
     }
+    
+    private func checkObstacles(map: Map, roverX: Int, roverY: Int) {
+        for obstacle in map.obstacles {
+            if self.x == obstacle.x, self.y == obstacle.y {
+                self.x = roverX
+                self.y = roverY
+            }
+        }
+    }
 }
 
-private let robot = Rover(x: 10, y: 10, orientation: .North,map: Map(x: 10, y: 10))
-robot.goBackward()
-robot.goBackward()
-robot.rotateClockwise()
-robot.goForward()
-robot.goForward()
-robot.rotateCounterclockwise()
-robot.goForward()
-robot.goForward()
+private let robot = Rover(x: 5, y: 4, orientation: .North,map: Map(x: 10, y: 10, obstacles: [Obstacle(x: 5, y: 5), Obstacle(x: 2, y: 8)]))
 robot.goForward()
 
 
