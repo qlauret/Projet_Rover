@@ -7,9 +7,62 @@
 
 import Foundation
 
-func interfaceChoiceRobot(){
-    
+func interfaceChoiceRobot(planet: Planet) -> Rover?{
+    var finalRobot = Rover(name: "")
+    if planet.roversOnPlanet.count > 1 {
+        var firstLoop = true
+        while firstLoop{
+            print("\nChoisissez un rover en tapant son numéro :")
+            for (index,rover) in planeteMars.roversOnPlanet.enumerated(){
+                print(" * \(index): \(rover.name)")
+            }
+            print("ou tapez \(cmdQuitter) pour quitter")
+            if let input = readLine(){
+                if let number = Int(input){
+                    let nbRover = planeteMars.roversOnPlanet.count
+                    if (0..<nbRover).contains(number){
+                        finalRobot = planeteMars.roversOnPlanet[number]
+                        print("\nDernière position de \(finalRobot.name) X:\(finalRobot.point.x), Y:\(finalRobot.point.y), côté \(finalRobot.orientation.rawValue)")
+                        firstLoop = false
+                    }else{
+                        print("Ce nombre n'entre pas dans l'interval [0,\(nbRover-1)]")
+                    }
+                }else{
+                    if input.uppercased() == cmdQuitter{
+                        exit(0)
+                    }else{
+                        print("Ceci n'est pas un nombre.")
+                    }
+                    
+                }
+            }
+        }
+        return finalRobot
+    }
+    return nil
 }
+
+func interfaceChoiceAction(currentRover: Rover){
+    var sndLoop = true
+    while sndLoop {
+        // Demande à l'utilisateur d'entrer une valeur
+        print("\nDonnez-moi une action pour \(currentRover.name): \n * \(cmdAvancer): Avancer \n * \(cmdReculer): Reculer \n * \(cmdTournerGauche): Rotation à gauche \n * \(cmdTournerDroite): Rotation à droite \n * \(cmdRetour): Changer de rover")
+        print("ou tapez \(cmdQuitter) pour quitter")
+        if let input = readLine(){
+            //UNE SEULE COMMANDE
+            if input.count <= 1{
+                sndLoop = checkCommande(input: input, currentRover: currentRover)
+            }else{
+                //PLUSIEURS COMMANDE
+                for char in input{
+                    sndLoop = checkCommande(input: String(char), currentRover: currentRover)
+                }
+            }
+            
+        }
+    }
+}
+
 
 func checkCommande(input: String, currentRover: Rover) -> Bool{
     switch input.uppercased() {
@@ -26,7 +79,7 @@ func checkCommande(input: String, currentRover: Rover) -> Bool{
     case cmdQuitter:
         exit(0)
     default:
-        print("\n-- Désoler, la commande n'est pas reconnu --")
+        print("\n-- Désoler, la commande \(input) n'est pas reconnu. --")
     }
     return true
 }

@@ -49,7 +49,6 @@ class Rover {
     
     func goForward() {
         if isDeployed{
-            
             let previousPoint = Point(x: self.point.x, y: self.point.y)
             switch orientation {
                 case .South:
