@@ -7,8 +7,15 @@
 
 import Foundation
 
-func interfaceChoiceRobot(planet: Planet) -> Rover?{
-    var finalRobot = Rover(name: "")
+let cmdAvancer = "Z"
+let cmdReculer = "S"
+let cmdTournerDroite = "D"
+let cmdTournerGauche = "Q"
+let cmdRetour = "C"
+let cmdQuitter = "E"
+
+func interfaceChoiceRobot(planet: PlanetToroidale) -> Rover?{
+    var finalRobot = Rover(name: "", planet: planet)
     if planet.roversOnPlanet.count > 1 {
         var firstLoop = true
         while firstLoop{

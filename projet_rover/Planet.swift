@@ -7,11 +7,11 @@
 
 import Foundation
 
-class Planet {
+class PlanetToroidale: IPlanete{
+    var width: Int
+    var height: Int
+    var name: String
     let defaultHW = 8
-    let width: Int
-    let height: Int
-    let name: String
     
     var roversOnPlanet = [Rover]()
     var obstacleOnPlanet = [Obstacle]()
@@ -50,3 +50,4 @@ class Planet {
     }
     
 }
+

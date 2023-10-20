@@ -11,15 +11,16 @@ class Rover {
     var name : String
     var point = Point(x: 0, y: 0)
     var orientation : cardinalPoints = .North
-    var planet = Planet(name:"",width: 0, height: 0)
+    var planet : IPlanete
     var isDeployed = false
     
-    public init(name : String) {
+    public init(name : String, planet: IPlanete) {
         self.name = name
+        self.planet = planet
     }
     
     //PUBLIC METHOD
-    func deploy(on planet : Planet, atX posX: Int, atY posY: Int, facing : cardinalPoints = .North){
+    func deploy(on planet : IPlanete, atX posX: Int, atY posY: Int, facing : cardinalPoints = .North){
         if !self.isDeployed{
             self.isDeployed = true
             // ORIENTATION
@@ -51,18 +52,18 @@ class Rover {
         if isDeployed{
             let previousPoint = Point(x: self.point.x, y: self.point.y)
             switch orientation {
-                case .South:
-                    self.point.y -= 1
-                    self.checkPositioning(onX: false, isPositive: false)
-                case .North:
-                    self.point.y += 1
-                    self.checkPositioning(onX: false, isPositive: true)
-                case .East:
-                    self.point.x += 1
-                    self.checkPositioning(onX: true, isPositive: true)
-                case .West:
-                    self.point.x -= 1
-                    self.checkPositioning(onX: true, isPositive: false)
+            case .South:
+                self.point.y -= 1
+                self.checkPositioning(onX: false, isPositive: false)
+            case .North:
+                self.point.y += 1
+                self.checkPositioning(onX: false, isPositive: true)
+            case .East:
+                self.point.x += 1
+                self.checkPositioning(onX: true, isPositive: true)
+            case .West:
+                self.point.x -= 1
+                self.checkPositioning(onX: true, isPositive: false)
             }
             self.checkObstacle(previousPoint: previousPoint) //vérifie si y il a un obstacle
             self.showMessage(option: "get_positioning") //affiche ses infos
@@ -76,18 +77,18 @@ class Rover {
         if isDeployed{
             let previousPoint = Point(x: self.point.x, y: self.point.y)
             switch orientation {
-                case .South:
-                    self.point.y += 1
-                    self.checkPositioning(onX: false, isPositive: true)
-                case .North:
-                    self.point.y -= 1
-                    self.checkPositioning(onX: false, isPositive: false)
-                case .East:
-                    self.point.x -= 1
-                    self.checkPositioning(onX: true, isPositive: false)
-                case .West:
-                    self.point.x += 1
-                    self.checkPositioning(onX: true, isPositive: true)
+            case .South:
+                self.point.y += 1
+                self.checkPositioning(onX: false, isPositive: true)
+            case .North:
+                self.point.y -= 1
+                self.checkPositioning(onX: false, isPositive: false)
+            case .East:
+                self.point.x -= 1
+                self.checkPositioning(onX: true, isPositive: false)
+            case .West:
+                self.point.x += 1
+                self.checkPositioning(onX: true, isPositive: true)
             }
             self.checkObstacle(previousPoint: previousPoint) //vérifie si y il a un obstacle
             self.showMessage(option: "get_positioning") //affiche ses infos
@@ -159,7 +160,7 @@ class Rover {
                 }
             }
         }
-
+        
     }
     
     private func showMessage(option: String){
@@ -176,7 +177,8 @@ class Rover {
             print("")
         }
         
-    }}
+    }
+}
 
 enum cardinalPoints: String {
     case North = "Nord"

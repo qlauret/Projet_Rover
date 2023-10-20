@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6606F7272AE1180800A5D2AB /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6606F7262AE1180800A5D2AB /* Point.swift */; };
+		66501DF82AE2A6DD007EAD55 /* IPlanete.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66501DF72AE2A6DD007EAD55 /* IPlanete.swift */; };
 		668E47672AE119D3005F889E /* Obstacle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668E47662AE119D3005F889E /* Obstacle.swift */; };
 		668E47692AE11CDB005F889E /* Interface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 668E47682AE11CDB005F889E /* Interface.swift */; };
 		66F8AA3E2AD816F40022B84B /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F8AA3D2AD816F40022B84B /* main.swift */; };
@@ -29,6 +30,7 @@
 
 /* Begin PBXFileReference section */
 		6606F7262AE1180800A5D2AB /* Point.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
+		66501DF72AE2A6DD007EAD55 /* IPlanete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IPlanete.swift; sourceTree = "<group>"; };
 		668E47662AE119D3005F889E /* Obstacle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Obstacle.swift; sourceTree = "<group>"; };
 		668E47682AE11CDB005F889E /* Interface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Interface.swift; sourceTree = "<group>"; };
 		66F8AA3A2AD816F40022B84B /* projet_rover */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = projet_rover; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -73,6 +75,7 @@
 				6606F7262AE1180800A5D2AB /* Point.swift */,
 				668E47662AE119D3005F889E /* Obstacle.swift */,
 				668E47682AE11CDB005F889E /* Interface.swift */,
+				66501DF72AE2A6DD007EAD55 /* IPlanete.swift */,
 			);
 			path = projet_rover;
 			sourceTree = "<group>";
@@ -141,6 +144,7 @@
 				66F8AA472AD89C360022B84B /* Rover.swift in Sources */,
 				66F8AA3E2AD816F40022B84B /* main.swift in Sources */,
 				668E47692AE11CDB005F889E /* Interface.swift in Sources */,
+				66501DF82AE2A6DD007EAD55 /* IPlanete.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
