@@ -33,4 +33,15 @@ class PlaneteToroidale{
         
     }
 
+    private func isObstacle(p: Point) -> Bool{
+        for obstacle in self.obstacleOnPlanet{
+            if (obstacle.point.x == p.x) && (obstacle.point.y == p.y){
+                //même position, donc on garde la précédente position
+                print("** IL y a un obstacle sur votre chemin **")
+                return true
+            }
+        }
+        return false
+    }
+
 }

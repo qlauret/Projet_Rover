@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:Projet_Rover}",
+            "name": "Debug Projet_Rover",
+            "program": "${workspaceFolder:Projet_Rover}\\.build\\debug\\Projet_Rover.exe",
+            "preLaunchTask": "swift: Build Debug Projet_Rover"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "sourceLanguages": [
+                "swift"
+            ],
+            "args": [],
+            "cwd": "${workspaceFolder:Projet_Rover}",
+            "name": "Release Projet_Rover",
+            "program": "${workspaceFolder:Projet_Rover}\\.build\\release\\Projet_Rover.exe",
+            "preLaunchTask": "swift: Build Release Projet_Rover"
+        }
+    ]
+}

@@ -88,43 +88,30 @@ class Rover{
     }
     
     
-    
-    
-    
-    
-    
-    
-    
+    func moveForward() {
+        var direction = self.cardinal.direction
+        var newPos = self.point.add(p: direction)
+        
+        if(self.planet.isObstable(p: newPos)) {
+            
+        } else {
+            self.point = newPos
+            print(self.point)
+        }
+    }
     
     // PASSE PAR CARDINAL
-    func rotate(onRight: Bool) {
-        self.cardinal.rotateCardinal(onRight: onRight)
+    func rotateRight() {
+        self.cardinal.rotateRight();
         self.showPositioning()
     }
-    // PASSE PAR 
-    func moveOnAxe(forward: Bool){
-        let previousPoint = Point(x: self.point.x, y: self.point.y)
-        self.cardinal.moveOnCardinal(goForward: forward, point: self.point)
+    
+
+    func rotateLeft() {
+        self.cardinal.rotateLeft();
+        self.showPositioning()
     }
     
-    
-    
-    
-    
-    
-    
-    
-    
-    private func checkObstacle() -> Bool{
-        for obstacle in self.planet.obstacleOnPlanet{
-            if (obstacle.point.x == self.point.x) && (obstacle.point.y == self.point.y){
-                //même position, donc on garde la précédente position
-                print("** IL y a un obstacle sur votre chemin **")
-                return true
-            }
-        }
-        return false
-    }
     
     private func checkPositioningAndProcess(onX : Bool, isPositive: Bool){
         // X AXE

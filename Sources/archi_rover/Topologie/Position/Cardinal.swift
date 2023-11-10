@@ -16,9 +16,11 @@ enum cardinalPoints: String {
 }
 
 
-class Cardinal{
+class Cardinal {
     
     var cardinal : cardinalPoint
+
+    var direction : Point
     
     enum cardinalPoint: String {
         case North = "Nord"
@@ -30,30 +32,27 @@ class Cardinal{
     init(cardinal: cardinalPoint = .North) {
         self.cardinal = cardinal
     }
+
+    func rotateLeft() {
+        self.rotateRight().rotateRight().rotateRight();
+    }
     
-    func rotateCardinal(onRight: Bool) {
-        if onRight {
+    func rotateRight() {
             switch self.cardinal {
             case .North:
                 self.cardinal = .East
+                self.direction = Point(x: 1, y: 0);
             case .East:
                 self.cardinal = .South
+                self.direction = Point(x: 0, y: -1);
             case .South:
                 self.cardinal = .West
+                self.direction = Point(x: -1, y: 0);
             case .West:
                 self.cardinal = .North
+                self.direction = Point(x: 0, y: 1);
             }
-        } else {
-            switch cardinal {
-            case .North:
-                self.cardinal = .West
-            case .East:
-                self.cardinal = .North
-            case .South:
-                self.cardinal = .East
-            case .West:
-                self.cardinal = .South
-            }
-        }
+
+            return self;
     }
 }
