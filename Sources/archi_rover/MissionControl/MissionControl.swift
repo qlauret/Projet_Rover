@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+
+class MissionControl: ICommandSender {
+     private let commandSender: ICommandSender
+
+     func SendCommandToRover() {
+        commandSender.sendCommand();
+     }
+}

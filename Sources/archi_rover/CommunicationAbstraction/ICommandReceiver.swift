@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+protocol ICommandReceiver {
+     func receiveCommand(_ command: String)
+}

@@ -15,14 +15,10 @@ let cmdTournerDroite = "D"
 let cmdTournerGauche = "Q"
 let cmdQuitter = "E"
 
-
-
 //**********************************************************************************************************
 //**********************************************************************************************************
 
 var Sojourner = Rover(positionOnPlanet: Point(x: 3, y: 5), orientationOnPlanet: .South, planet: mars)
-
-
 
 //ACTIONS
 let listeCommande = "zzzzsqqqzzzssddzssszssssdssds"
@@ -30,10 +26,22 @@ processCommand(input: listeCommande, currentRover: Sojourner)
 
 //interfaceChoiceAction(currentRover: Sojourner) //interface retour clavier
 
-
 let socketManager = SocketManager(host: "127.0.0.1", port: 12345)
 socketManager.connect()
 socketManager.sendMessage(message: "Hello world")
+
+
+let socketManager = SocketManager(host: "127.0.0.1", port: 12345)
+socketManager.connect()
+
+
+DispatchQueue.global(qos: .background).async {
+    while true {
+       if let receivedMessage = socketManager.readMessage() {
+            print("Received message: \(receivedMessage)")
+        }
+    }
+}
 
 }
 
@@ -81,3 +89,5 @@ public func exitProgramm(message: String){
     print(message)
     exit(0)
 }
+
+

@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+
+protocol ICommandSender {
+    func sendCommand(_ command: String)
+}
