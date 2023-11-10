@@ -22,4 +22,10 @@ class Point{
         let newY = self.y + p.y
         return Point(x: newX, y: newY)
     }   
+
+    public func substract(p: Point) -> Point {
+        let newX = self.x - p.x
+        let newY = self.y - p.y
+        return Point(x: newX, y: newY)
+    } 
 }

@@ -31,13 +31,14 @@ class Cardinal {
     
     init(cardinal: cardinalPoint = .North) {
         self.cardinal = cardinal
+        self.direction = Point(x: 0, y: 1)
     }
 
     func rotateLeft() {
         self.rotateRight().rotateRight().rotateRight();
     }
     
-    func rotateRight() {
+    func rotateRight() -> Cardinal {
             switch self.cardinal {
             case .North:
                 self.cardinal = .East

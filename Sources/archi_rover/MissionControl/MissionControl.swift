@@ -7,11 +7,14 @@
 
 import Foundation
 
-
-class MissionControl: ICommandSender {
+class MissionControl {
      private let commandSender: ICommandSender
 
-     func SendCommandToRover() {
-        commandSender.sendCommand();
+     init(sender: ICommandSender) {
+         self.commandSender = sender
+     }
+
+     func SendCommandToRover(message: String) {
+        commandSender.sendCommand(message);
      }
 }

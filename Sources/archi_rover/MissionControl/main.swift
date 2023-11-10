@@ -7,8 +7,6 @@
 
 import Foundation
 
-
-func main() {
     let cmdAvancer = "Z"
 let cmdReculer = "S"
 let cmdTournerDroite = "D"
@@ -18,7 +16,9 @@ let cmdQuitter = "E"
 //**********************************************************************************************************
 //**********************************************************************************************************
 
-var Sojourner = Rover(positionOnPlanet: Point(x: 3, y: 5), orientationOnPlanet: .South, planet: mars)
+let socket = SocketAdapter()
+
+var Sojourner = Rover(positionOnPlanet: Point(x: 3, y: 5), orientationOnPlanet: .South, planet: mars, receiver: socket)
 
 //ACTIONS
 let listeCommande = "zzzzsqqqzzzssddzssszssssdssds"
@@ -26,6 +26,8 @@ processCommand(input: listeCommande, currentRover: Sojourner)
 
 //interfaceChoiceAction(currentRover: Sojourner) //interface retour clavier
 
+
+/*
 let socketManager = SocketManager(host: "127.0.0.1", port: 12345)
 socketManager.connect()
 socketManager.sendMessage(message: "Hello world")
@@ -41,12 +43,8 @@ DispatchQueue.global(qos: .background).async {
             print("Received message: \(receivedMessage)")
         }
     }
-}
+} */
 
-}
-
-
-main();
 
 
 //Questionne via le terminal l'utilisateur
@@ -68,13 +66,13 @@ func processCommand(input: String, currentRover: Rover){
     for char in input{
         switch char.uppercased() {
         case cmdAvancer:
-            currentRover.goForward()
+            currentRover.moveForward()
         case cmdReculer:
-            currentRover.goBackward()
+            currentRover.moveBackward()
         case cmdTournerDroite:
-            currentRover.rotate(onRight: true)
+            currentRover.rotateRight()
         case cmdTournerGauche:
-            currentRover.rotate(onRight: false)
+            currentRover.rotateLeft()
         case cmdQuitter:
             exitProgramm(message: "FIN DU PROGRAMME")
         default:

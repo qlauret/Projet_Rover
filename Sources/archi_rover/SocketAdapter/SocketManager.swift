@@ -1,27 +1,32 @@
 import Foundation
 
-class SocketManager {
+class SocketManager: NSObject {
     let host: String
-    let port: Int
+    let port: UInt32
     var inputStream: InputStream!
     var outputStream: OutputStream!
 
-    init(host: String, port: Int) {
+    init(host: String, port: UInt32) {
         self.host = host
         self.port = port
     }
 
     func connect() {
-        Stream.getStreamsToHost(withName: host, port: port, inputStream: &inputStream, outputStream: &outputStream)
-        
-        inputStream.delegate = self
-        outputStream.delegate = self
-        
-        inputStream.schedule(in: .current, forMode: .common)
-        outputStream.schedule(in: .current, forMode: .common)
-        
-        inputStream.open()
-        outputStream.open()
+        if let url = URL(string: "http://\(self.host):\(self.port)") {
+            inputStream = try? InputStream(url: url)
+            outputStream = try? OutputStream(url: url, append: false)
+            
+            inputStream.delegate = self
+            outputStream.delegate = self
+            
+            inputStream.schedule(in: .current, forMode: .default)
+            outputStream.schedule(in: .current, forMode: .default)
+            
+            inputStream.open()
+            outputStream.open()
+        } else {
+            print("Erreur lors de la création des streams.")
+        }
     }
 
     func disconnect() {
@@ -47,18 +52,18 @@ class SocketManager {
 
 extension SocketManager: StreamDelegate {
     func stream(_ aStream: Stream, handle eventCode: Stream.Event) {
-        if aStream == inputStream {
-            switch eventCode {
-            case .hasBytesAvailable:
+        switch eventCode {
+        case .hasBytesAvailable:
+            if let inputStream = aStream as? InputStream {
                 var buffer = [UInt8](repeating: 0, count: 1024)
                 let bytesRead = inputStream.read(&buffer, maxLength: buffer.count)
                 if bytesRead > 0 {
                     let receivedMessage = String(bytes: buffer.prefix(bytesRead), encoding: .utf8)
                     print("Received message: \(receivedMessage!)")
                 }
-            default:
-                break
             }
+        default:
+            break
         }
     }
 }

@@ -7,18 +7,20 @@
 
 import Foundation
 
-class Rover{
+class Rover {
     
     var point : Point
     var orientation : cardinalPoints
     var planet : PlaneteToroidale
     var cardinal : Cardinal
+    private let commandReceiver: ICommandReceiver
     
-    init(positionOnPlanet: Point, orientationOnPlanet: cardinalPoints = .North, planet: PlaneteToroidale) {
+    init(positionOnPlanet: Point, orientationOnPlanet: cardinalPoints = .North, planet: PlaneteToroidale, receiver: ICommandReceiver) {
         self.point = positionOnPlanet
         self.orientation = orientationOnPlanet
         self.planet = planet
         self.cardinal = Cardinal(cardinal: .South)
+        self.commandReceiver = receiver
         
         ///ON VERIFIE SI LE ROVER PEUT SE POSITIONNER ICI
         // X POSITION
@@ -34,65 +36,28 @@ class Rover{
             exitProgramm(message: "ERROR: la position Y du rover n'est pas sur la planète !")
         }
         //CHECK OBSTACLE
-        if self.checkObstacle(){ //vérifie si y il a un obstacle
+        if self.planet.isObstacle(p: positionOnPlanet) { //vérifie si y il a un obstacle
             exitProgramm(message: "ERROR: le rover est sur un obstacle !")
         }
-    }
-    
-    
-    
-    
-    func goForward() {
-        let previousPoint = Point(x: self.point.x, y: self.point.y)
-        switch orientation {
-        case .South:
-            self.point.y -= 1
-            self.checkPositioningAndProcess(onX: false, isPositive: false)
-        case .North:
-            self.point.y += 1
-            self.checkPositioningAndProcess(onX: false, isPositive: true)
-        case .East:
-            self.point.x += 1
-            self.checkPositioningAndProcess(onX: true, isPositive: true)
-        case .West:
-            self.point.x -= 1
-            self.checkPositioningAndProcess(onX: true, isPositive: false)
-        }
-        if self.checkObstacle(){ //vérifie si y il a un obstacle
-            self.point = previousPoint
-        }
-        self.showPositioning()
-        
-    }
-    
-    func goBackward() {
-        let previousPoint = Point(x: self.point.x, y: self.point.y)
-        switch orientation {
-        case .South:
-            self.point.y += 1
-            self.checkPositioningAndProcess(onX: false, isPositive: true)
-        case .North:
-            self.point.y -= 1
-            self.checkPositioningAndProcess(onX: false, isPositive: false)
-        case .East:
-            self.point.x -= 1
-            self.checkPositioningAndProcess(onX: true, isPositive: false)
-        case .West:
-            self.point.x += 1
-            self.checkPositioningAndProcess(onX: true, isPositive: true)
-        }
-        if self.checkObstacle(){ //vérifie si y il a un obstacle
-            self.point = previousPoint
-        }
-        self.showPositioning()
-    }
-    
+    } 
     
     func moveForward() {
-        var direction = self.cardinal.direction
-        var newPos = self.point.add(p: direction)
+        let direction = self.cardinal.direction
+        let newPos = self.point.add(p: direction)
         
-        if(self.planet.isObstable(p: newPos)) {
+        if(self.planet.isObstacle(p: newPos)) {
+            
+        } else {
+            self.point = newPos
+            print(self.point)
+        }
+    }
+
+    func moveBackward() {
+        let direction = self.cardinal.direction
+        let newPos = self.point.substract(p: direction)
+        
+        if(self.planet.isObstacle(p: newPos)) {
             
         } else {
             self.point = newPos
